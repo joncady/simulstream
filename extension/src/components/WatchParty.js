@@ -10,28 +10,42 @@ export default function StartParty() {
     const urlTextArea = useRef(null);
 
     useEffect(() => {
-        window.chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        window.chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             let activeTab = tabs[0];
             setTabUrl(activeTab.url);
-            const urlParams = new URLSearchParams(activeTab.url);
-            
-            let wpSession = urlParams.get("wpSession");
-            if (wpSession) {
-                setIsStart(true);
-                setPartyUrl(activeTab.url);
-                setTabId(activeTab.id);
+            let url = new URL(activeTab.url);
+            if (url.search) {
+                let wpSession = url.searchParams.get("wpSession");
+                if (wpSession) {
+                    setIsStart(true);
+                    setPartyUrl(activeTab.url);
+                    setTabId(activeTab.id);
+                }
             }
-         });
+        })
     }, [])
 
     const generateSession = () => {
         let url = new URL(tabUrl);
-        let showId = url.pathname.split("/").filter(section => section !== "")[1];
+        let showId;
+        let spaceCount;
+        if (url.host.includes("amazon")) {
+            spaceCount = 3;
+        } else if (url.host.includes("netflix")) {
+            spaceCount = 1;
+        } else {
+            spaceCount = 0;
+        }
+        showId = url.pathname.split("/").filter(section => section !== "")[spaceCount];
         let sessionId = String(showId) + "-" + String(Math.round(new Date().valueOf() / 1000));
+        let newUrl;
+        if (url.search.length == 0) {
+            newUrl = tabUrl + "?wpSession=" + sessionId;
+        } else {
+            newUrl = tabUrl + "&wpSession=" + sessionId;
+        }
 
-        let newUrl = tabUrl + "&wpSession=" + sessionId;
-
-        window.chrome.tabs.update(tabId, {url: newUrl });
+        window.chrome.tabs.update(tabId, { url: newUrl });
 
         setPartyUrl(newUrl);
         setIsStart(true);
@@ -50,8 +64,8 @@ export default function StartParty() {
         for (const [key, value] of searchVariables) {
             searchList.push(key + "=" + value);
         }
-        let newUrl = tabUrl.split("?")[0] + "?" + searchList.join("&");
-        window.chrome.tabs.update(tabId, {url: newUrl });
+        let newUrl = tabUrl.split("?")[0] + (searchList.length > 0) && ("?" + searchList.join("&"));
+        window.chrome.tabs.update(tabId, { url: newUrl });
         setIsStart(false);
     }
 

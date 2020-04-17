@@ -16,7 +16,7 @@
             this.player.pause();
         }
 
-        seek(time) {
+        setTime(time) {
             this.player.currentTime = time;
         }
 
@@ -41,6 +41,10 @@
 
         injectCSS() {
             // finish later
+            let videoPlayer = document.getElementById("dv-web-player");
+            if (videoPlayer) {
+                videoPlayer.classList.add("wp-amazon");
+            }
         }
 
     }
@@ -80,32 +84,40 @@
         const urlParams = new URLSearchParams(queryString);
         let wpSession = urlParams.get("wpSession");
         if (wpSession) {
-
             let counter = 0;
             let playerElement;
             let interval = setInterval(() => {
                 playerElement = document.querySelector("video")
                 counter += 1;
-
                 if (playerElement) {
                     clearInterval(interval);
-                    detectStreamingSrc(window.location, playerElement);
-                    startParty(wpSession);
-                } else if (counter > TIMEOUT) {
+                    detectStreamingSrc(window.location, playerElement, wpSession);
+                } else if (window.location.host.includes("amazon")) {
+                    let playButton = document.querySelector(".dv-dp-node-playback a");
+                    if (playButton) {
+                        playButton.click();
+                    }
+                } 
+                else if (counter > TIMEOUT) {
                     clearInterval(interval);
                 }
             }, 1000);
         }
     }
 
-    function detectStreamingSrc(url, playerElement) {
+    function detectStreamingSrc(url, playerElement, session) {
         for (src in STREAMING_OPTIONS) {
             if (url.host.includes(src)) {
                 player = new STREAMING_OPTIONS[src](playerElement);
-                streamingType = src;
-                player.injectCSS();
-                constructChatBox();
+                streamingType = src;   
             }
+        }
+        if (player) {
+            console.log("injecting...")
+           
+            player.injectCSS();
+            constructChatBox();
+            startParty(session);
         }
     }
 
@@ -157,6 +169,7 @@
                     player.pause();
                     break;
                 case "seeked":
+                    console.log("received seek")
                     player.setTime(data);
                     break;
                 default:
@@ -214,7 +227,7 @@
 
     function constructChatBox() {
         let element = document.createElement("div");
-        element.classList.add("chat-box", "ui", "card");
+        element.classList.add("wp-chat-box", "ui", "card");
         element.id = "chatBoxCP";
         let header = document.createElement("header");
         let h1 = document.createElement("h3");
