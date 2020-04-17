@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json.schemastore.org/chrome-manifest",
+  "name": "WatchParty",
+  "version": "1.0",
+  "description": "Watch shows together!",
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage",
+    "tabs"
+  ],
+  "browser_action": {
+    "default_popup": "index.html"
+  },
+  "background": {
+    "scripts": [
+      "lib/hot-reload.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.netflix.com/watch/*",
+        "https://www.crunchyroll.com/*",
+        "https://www.amazon.com/gp/video/*"
+      ],
+      "js": [
+        "lib/jquery.js",
+        "lib/socket-io.js",
+        "lib/moment.js",
+        "lib/semantic.min.js",
+        "page-content/content-script.js"
+      ],
+      "css": [
+        "lib/semantic.min.css",
+        "page-content/content.css"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'sha256-p5hOtlld76OubQRjuoOzFkH1phfMCtQyYciqJYR0hgk='; object-src 'self'; connect-src 'self' wss://localhost:3030;",
+  "web_accessible_resoures": [
+    "index.html",
+    "page-content/player.js"
+  ],
+  "author": "Jonathan Cady",
+  "manifest_version": 2
+}

@@ -1,0 +1,39 @@
+.chat-box {
+    width: 20%;
+    height: 100%;
+    position: absolute!important;
+    right: 0;
+    z-index: 99;
+    color: black;
+    margin-top: 0!important;
+}
+
+.message-area {
+    height: 100%;
+    overflow-y: auto;
+    width: 100%;
+    list-style: none;
+}
+
+.input-area {
+    height: 10%;
+    width: 100%;
+}
+
+.wp-size {
+    width: 80%;
+}
+
+.hide {
+    display: none;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list {
+    margin: 0!important;
+    padding: 1em!important;
+}
