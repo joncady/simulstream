@@ -12,6 +12,10 @@
             this.player.play();
         }
 
+        getCurrentTime() {
+            return player.currentTime;
+        }
+
         pause() {
             this.player.pause();
         }
@@ -49,6 +53,17 @@
 
     }
 
+    class YouTube extends StreamingProvider {
+
+        injectCSS() {
+            let videoPlayer = document.querySelector("video");
+            if (videoPlayer) {
+                videoPlayer.classList.add("wp-youtube");
+            }            
+        }
+
+    }
+
     class Netflix extends StreamingProvider {
 
         seek() {
@@ -69,6 +84,7 @@
     const STREAMING_OPTIONS = {
         amazon: AmazonPrime,
         netflix: Netflix,
+        youtube: YouTube,
         crunchyroll: "CRUNCHYROLL"
     }
 
@@ -137,9 +153,13 @@
             socket.on('connect', () => {
                 id = socket.id;
             });
-            socket.emit("join", "testing");
+            socket.emit("join", {
+                currentTime: player.getCurrentTime(),
+                session: "testing"
+            });
             socket.on("message", receiveChatMessage);
             socket.on("player", receivePlayerMessage);
+            socket.on("receiveMessages", (msgs) => messages = msgs);
 
             player.setUpListeners();
         }
@@ -183,37 +203,6 @@
             player.currentTime = player.duration;
         })
     }
-
-    // 
-    // var eventOptions, scrubber;
-    // return showControls().then(function() {
-    //   // compute the parameters for the mouse events
-    //   scrubber = document.querySelector(".scrubber-bar");
-    //   let factor = milliseconds / player.duration;
-    //   let mouseX = scrubber.offset().left + Math.round(scrubber.width() * factor); // relative to the document
-    //   let mouseY = scrubber.offset().top + scrubber.height() / 2;                  // relative to the document
-    //   eventOptions = {
-    //     'bubbles': true,
-    //     'button': 0,
-    //     'screenX': mouseX - $(window).scrollLeft(),
-    //     'screenY': mouseY - $(window).scrollTop(),
-    //     'clientX': mouseX - $(window).scrollLeft(),
-    //     'clientY': mouseY - $(window).scrollTop(),
-    //     'offsetX': mouseX - scrubber.offset().left,
-    //     'offsetY': mouseY - scrubber.offset().top,
-    //     'pageX': mouseX,
-    //     'pageY': mouseY,
-    //     'currentTarget': scrubber[0]
-    //   };
-
-    //   // make the "trickplay preview" show up
-    //   scrubber.dispatchEvent(new MouseEvent('mouseover', eventOptions));
-
-    // // const videoPlayer = window.netflix.appContext.state.playerApp.getAPI().videoPlayer;
-    // // const netflixPlayer = videoPlayer.getVideoPlayerBySessionId(videoPlayer.getAllPlayerSessionIds()[0]);
-    // // netflixPlayer.seek(time);
-    // // player.currentTime = time;
-    // })
 
     function sendMessage(type, content) {
         if (socket) {
