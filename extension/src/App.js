@@ -6,8 +6,8 @@ function App() {
 
   return (
     <div>
-      <h1>Welcome to CrunchyParty!</h1>
-      <h3>Watch anime with your friends!</h3>
+      <h1>Welcome to WatchParty!</h1>
+      <h3>Watch  shows with your friends on (almost) any platform!</h3>
       <div>
         <WatchParty />
       </div>

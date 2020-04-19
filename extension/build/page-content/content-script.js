@@ -64,10 +64,46 @@
 
     }
 
+    function showControls() {
+        let promise = new Promise((resolve) => {
+            document.querySelector(".VideoContainer").dispatchEvent(new MouseEvent("mousemove", {
+                'bubbles': true,
+                'button': 0,
+                'currentTarget': document.querySelector(".VideoContainer")
+            }))
+            setInterval(() => {
+                resolve();
+            }, 10);
+        });
+        return promise;
+    }
+
     class Netflix extends StreamingProvider {
 
-        seek() {
-            // this will be interesting
+        setTime(time) {
+            showControls().then(() => {
+                let scrubber = $('.scrubber-bar');
+                let factor = time / this.player.duration;
+                let mouseX = scrubber.offset().left + Math.round(scrubber.width() * factor); // relative to the document
+                let mouseY = scrubber.offset().top + scrubber.height() / 2;            // relative to the document
+                let eventOptions = {
+                    'bubbles': true,
+                    'button': 0,
+                    'screenX': mouseX - $(window).scrollLeft(),
+                    'screenY': mouseY - $(window).scrollTop(),
+                    'clientX': mouseX - $(window).scrollLeft(),
+                    'clientY': mouseY - $(window).scrollTop(),
+                    'offsetX': mouseX - scrubber.offset().left,
+                    'offsetY': mouseY - scrubber.offset().top,
+                    'pageX': mouseX,
+                    'pageY': mouseY,
+                    'currentTarget': scrubber[0]
+                };
+                // scrubber[0].dispatchEvent(new MouseEvent('mouseover', eventOptions));
+                scrubber[0].dispatchEvent(new MouseEvent('mousedown', eventOptions));
+                scrubber[0].dispatchEvent(new MouseEvent('mouseup', eventOptions));
+                scrubber[0].dispatchEvent(new MouseEvent('mouseout', eventOptions));
+            });
         }
 
         injectCSS() {
@@ -76,7 +112,7 @@
                 sizingElement.classList.add("wp-size");
             }
         }
-
+    
     }
 
     const TIMEOUT = 10;
@@ -148,7 +184,7 @@
 
     function startParty(session) {
         if (window.io) {
-            console.log("started watch party...")
+            console.log("started watch party2...")
             socket = io(SOCKET_URL);
             socket.on('connect', () => {
                 id = socket.id;
@@ -160,7 +196,10 @@
             socket.on("message", receiveChatMessage);
             socket.on("player", receivePlayerMessage);
             socket.on("receiveMessages", (msgs) => {
-                messages = msgs.messages;
+                messages = msgs.messages
+                if (msgs.currentTime) {
+                    player.setTime(msgs.currentTime);
+                }
                 renderChats();
             });
 

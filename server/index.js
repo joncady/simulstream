@@ -25,10 +25,8 @@ io.on('connection', (socket) => {
                 console.log(err)
             }
         })
-        console.log("Messages in room:", sessions[room].messages);
         socket.emit("receiveMessages", {
-            messages: sessions[room].messages || [],
-
+            messages: sessions[room].messages || []
         });
         console.log(`User:${socket.id} joined room ${roomId}`);
     })
@@ -46,7 +44,7 @@ io.on('connection', (socket) => {
         sessions[room] = {
             ...sessions[room],
             currentTime
-        }
+        } 
     })
 
     socket.on("player", (msg) => {
