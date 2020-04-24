@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#c6e3ec"/>
+      <stop offset="1" stop-color="#dcdddd"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.82" y1="0.603" x2="0.203" y2="0.592" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#cee0e6"/>
+      <stop offset="1" stop-color="#d4dfe2"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.18" y1="0.603" x2="0.797" y2="0.592" xlink:href="#linear-gradient-2"/>
+  </defs>
+  <g id="Group_1" data-name="Group 1" transform="translate(-267 -143)">
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="100" cy="100" r="100" transform="translate(267 143)" fill="url(#linear-gradient)"/>
+    <path id="Path_7" data-name="Path 7" d="M50,0c27.614,0,50,25,50,50s-22.386,50-50,50A50,50,0,0,1,50,0Z" transform="translate(317 193)" fill="#fff"/>
+    <path id="Path_2" data-name="Path 2" d="M2.281,3.613" transform="translate(355.14 226.5)" fill="none" stroke="#707070" stroke-width="5"/>
+    <path id="Polygon_1" data-name="Polygon 1" d="M20,0,40,41H0Z" transform="translate(384.891 262.889) rotate(-90)" fill="url(#linear-gradient-2)"/>
+    <path id="Polygon_2" data-name="Polygon 2" d="M19.817,5.367a3,3,0,0,1,5.367,0L42.829,40.658A3,3,0,0,1,40.146,45H4.854a3,3,0,0,1-2.683-4.342Z" transform="translate(395.891 220.889) rotate(90)" fill="url(#linear-gradient-3)"/>
+    <path id="Polygon_3" data-name="Polygon 3" d="M15,0,30,30H0Z" transform="translate(385.891 227.889) rotate(90)" fill="#fff"/>
+  </g>
+</svg>

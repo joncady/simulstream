@@ -68,8 +68,8 @@ export default function StartParty() {
         window.chrome.tabs.update(tabId, { url: newUrl });
         setIsStart(false);
     }
-
-    console.log(isStart);
+      
+    console.log(isStart);   
 
     if (!isStart) {
         return (

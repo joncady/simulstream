@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/chrome-manifest",
-  "name": "WatchParty",
+  "name": "siumlstream",
   "version": "1.0",
   "description": "Watch shows together!",
   "permissions": [
@@ -9,11 +9,19 @@
     "storage",
     "tabs"
   ],
-  "browser_action": {
+  "page_action": {
+    "default_title": "simulstream",
     "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "assets/logo-16.png",
+    "32": "assets/logo-32.png",
+    "48": "assets/logo-48.png",
+    "128": "assets/logo-128.png"
   },
   "background": {
     "scripts": [
+      "background.js",
       "lib/hot-reload.js"
     ]
   },

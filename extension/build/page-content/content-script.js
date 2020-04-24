@@ -13,7 +13,7 @@
         }
 
         getCurrentTime() {
-            return player.currentTime;
+            return this.player.currentTime;
         }
 
         pause() {
@@ -26,16 +26,25 @@
 
         setUpListeners() {
             this.player.addEventListener("play", () => {
-                console.log("send play");
-                sendPlayerMessage("play")
+                if (receivedSession) {
+                    console.log("send play");
+                    sendPlayerMessage("play")
+                }
             })
             this.player.addEventListener("pause", (e) => {
-                console.log("sent pause");
-                sendPlayerMessage("pause")
+                if (receivedSession) {
+                    console.log("sent pause");
+                    sendPlayerMessage("pause");
+                }
             })
             this.player.addEventListener("seeked", (e) => {
-                let time = e.target.currentTime;
-                sendPlayerMessage("seeked", time);
+                if (receivedSession || !receivedSeek) {
+                    let time = e.target.currentTime;
+                    sendPlayerMessage("seeked", time);
+                } else {
+                    receivedSeek = false;
+                }
+
             })
         }
 
@@ -128,6 +137,8 @@
     let socket;
     let messages = [];
     let seeking = false;
+    let receivedSeek = false;
+    let receivedSession = false;
     let streamingType;
     let id;
 
@@ -196,9 +207,15 @@
             socket.on("message", receiveChatMessage);
             socket.on("player", receivePlayerMessage);
             socket.on("receiveMessages", (msgs) => {
+                receivedSession = true;
                 messages = msgs.messages
                 if (msgs.currentTime) {
                     player.setTime(msgs.currentTime);
+                }
+                if (msgs.state === 0) {
+                    player.pause();
+                } else if (msgs.state === 1) {
+                    player.play();
                 }
                 renderChats();
             });
@@ -223,14 +240,25 @@
             let { type, data } = message;
             switch (type) {
                 case "play":
-                    console.log("played")
-                    player.play();
+                    console.log(seeking)
+                    if (!seeking) {
+                        console.log("played")
+                        player.play();                        
+                    } else {
+                        seeking = false;
+                    }
                     break;
                 case "pause":
-                    console.log("paused")
-                    player.pause();
+                    if (!seeking) {
+                        console.log("played")
+                        player.pause();                        
+                    } else {
+                        seeking = false;
+                    }
                     break;
                 case "seeked":
+                    seeking = true;
+                    receivedSeek = true;
                     console.log("received seek")
                     player.setTime(data);
                     break;
