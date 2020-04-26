@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/chrome-manifest",
-  "name": "siumlstream",
+  "name": "simulstream",
   "version": "1.0",
   "description": "Watch shows together!",
   "permissions": [
@@ -35,8 +35,6 @@
       ],
       "js": [
         "lib/jquery.js",
-        "lib/socket-io.js",
-        "lib/moment.js",
         "lib/semantic.min.js",
         "page-content/content-script.js"
       ],

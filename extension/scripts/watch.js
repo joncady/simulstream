@@ -7,6 +7,7 @@ const paths = require('../config/paths');
 const webpack = require('webpack');
 const configFactory = require('../config/webpack.config');
 const config = configFactory('development');
+const contentScriptConfig = require('../config/webpack-content.config.js');
 
 config.output.path = paths.appBuild;
 paths.publicUrl = paths.appBuild + '/';
@@ -17,6 +18,20 @@ webpack(config).watch({}, (err, stats) => {
     console.error(err);
   } else {
     copyPublicFolder();
+  }
+  console.error(
+    stats.toString({
+      chunks: false,
+      colors: true
+    })
+  );
+});
+
+webpack(contentScriptConfig).watch({}, (err, stats) => {
+  if (err) {
+    console.error(err);
+  } else {
+    // build
   }
   console.error(
     stats.toString({

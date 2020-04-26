@@ -45,6 +45,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // Generate configuration
 const config = configFactory('production');
+const contentScriptsWebpack = require('../config/webpack-content.config');
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
@@ -194,11 +195,21 @@ function build(previousFileSizes) {
         return reject(new Error(messages.warnings.join('\n\n')));
       }
 
-      return resolve({
-        stats,
-        previousFileSizes,
-        warnings: messages.warnings,
-      });
+      console.log('Building content scripts...');
+
+      const compilerScripts = webpack(contentScriptsWebpack);
+      compilerScripts.run((err) => {
+        
+        if (err) {
+          reject(new Error("Unable to build!"))
+        }
+
+        return resolve({
+          stats,
+          previousFileSizes,
+          warnings: messages.warnings,
+        });
+      })
     });
   });
 }

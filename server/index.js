@@ -2,27 +2,13 @@ const express = require('express')
 const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000
+const { generateID, STATES, convertStringToState } = require('./helper')
 
 app.use(express.static("landing-page"))
 
-const STATES = {
-    PAUSED: 0,
-    PLAYING: 1
-}
-
-const convertStringToState = (stringState) => {
-    switch (stringState) {
-        case "play":
-            return STATES.PLAYING;
-        case "pause":
-            return STATES.PAUSED;
-        case "seeked":
-            return STATES.PLAYING;
-        default:
-            return STATES.PLAYING;
-    }
-}
+let users = new Set()
+let userToName = {}
 
 const TIME_FACTOR = 1000;
 
@@ -33,32 +19,61 @@ io.on('connection', (socket) => {
     // closure to save room code for this user
     let room;
 
-    socket.on("join", ({ session: roomId, currentTime, state }) => {
+    socket.on("join", ({ session: roomId, currentTime, state, id, name, videoId }) => {
         room = roomId
+        // generates unique id based on stored values
+        if (!id) {
+            do {
+                id = id || generateID()
+                console.log(id, users.size)
+                console.log("generating unique id...")
+            } while (users.has(id))
+        }
+        // if id is unique, added to users
+        if (!users.has(id)) {
+            users.add(id)
+        }
+        if (name) {
+            userToName[id] = name
+        }
         let sessionData = {}
         if (!sessions[room]) {
-            sessions[room] = {
+            let newSessionData = {
                 messages: [],
-                users: new Set([socket.id]),
+                users: new Set([id]),
                 currentTime: currentTime,
                 updatedAt: new Date().valueOf(),
-                state: state
+                state: state || STATES.PAUSED,
+                videoId
             }
+            sessions[room] = newSessionData
+            sessionData = { ...newSessionData, id }
             console.log(`Created room ${room}`)
         } else {
-            let thisSession = sessions[room];
+            let thisSession = sessions[room]
+            let usersInSession = thisSession.users
+            let sessionNames = Array.from(usersInSession).reduce((obj, userId) => {
+                obj[userId] = userToName[userId]
+                return obj
+            }, {})
+            console.log(sessionNames)
             let currentTime = new Date().valueOf()
             if (thisSession.state === STATES.PLAYING) {
                 // if the video has been playing, we can assume time has continued naturally
                 let estimatedTime = Math.round((currentTime - thisSession.updatedAt) / TIME_FACTOR);
-                console.log(estimatedTime)
                 sessionData = {
-                    currentTime: estimatedTime
+                    currentTime: estimatedTime,
+                    state: STATES.PLAYING,
+                    id,
+                    sessionNames
                 }
             } else {
                 // if some sort of update has occured, then the session will reflect this
                 sessionData = {
-                    currentTime: thisSession.currentTime
+                    currentTime: thisSession.currentTime,
+                    state: STATES.PAUSED,
+                    id,
+                    sessionNames
                 }
             }
         }
@@ -67,29 +82,29 @@ io.on('connection', (socket) => {
                 console.log(err)
             }
         })
+        console.log(sessionData)
         socket.emit("receiveMessages", {
             messages: sessions[room].messages || [],
             ...sessionData
-        });
-        console.log(`User:${socket.id} joined room ${roomId}`);
+        })
+        console.log(`User:${id} joined room ${roomId}`);
     })
 
-    socket.on("message", (msg) => {
-        console.log(`${socket.id} sent message with value: ${msg.content}`)
-        sessions[room].messages = [...(sessions[room].messages || []), msg]
-        io.to(room).emit("message", {
-            ...msg,
-            id: socket.id
+    socket.on("name", ({ name, id }) => {
+        userToName[id] = name
+        socket.to(room).emit("name-change", {
+            id,
+            name
         })
     })
 
-    socket.on("updateSession", ({ currentTime, state }) => {
-        sessions[room] = {
-            ...sessions[room],
-            currentTime,
-            state,
-            updatedAt: new Date().valueOf()
-        } 
+    socket.on("message", (msg) => {
+        console.log(`${msg.id} sent message with value: ${msg.content}`)
+        sessions[room].messages = [...(sessions[room].messages || []), msg]
+        io.to(room).emit("message", {
+            ...msg,
+            id: msg.id
+        })
     })
 
     socket.on("player", (msg) => {
@@ -97,17 +112,14 @@ io.on('connection', (socket) => {
         let newSessionData = {
             ...currentSession,
             updatedAt: new Date().valueOf(),
-            state: convertStringToState(msg.type)            
+            state: convertStringToState(msg.type, currentSession.state)
         }
-        if (msg.type === "seeked") {
-            newSessionData.currentTime = msg.data
-        }
+        newSessionData.currentTime = msg.data
         sessions[room] = newSessionData
         console.log(`Updated session:`, newSessionData)
-        console.log(`${socket.id} sent ${msg.type} with value: ${msg.data}`)
+        console.log(`${msg.id} sent ${msg.type} with value: ${msg.data}`)
         io.to(room).emit("player", {
             ...msg,
-            id: socket.id
         })
     })
 
@@ -127,7 +139,7 @@ io.on('connection', (socket) => {
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html")
 })
- 
+
 http.listen(3000, () => {
     console.log(`Starting server on port ${PORT}`)
-});
+})

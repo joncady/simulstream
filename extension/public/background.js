@@ -1,36 +1,39 @@
 'use strict';
 
-chrome.runtime.onInstalled.addListener(function(details) {
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+let sites = [
+  {
+    pageUrl: {
+      hostEquals: 'www.netflix.com',
+      pathPrefix: '/watch/',
+      schemes: ['http', 'https']
+    }
+  },
+  {
+    pageUrl: {
+      hostEquals: 'www.youtube.com',
+      schemes: ['http', 'https']
+    }
+  },
+  {
+    pageUrl: {
+      hostEquals: 'www.crunchyroll.com',
+      schemes: ['http', 'https']
+    }
+  },
+  {
+    pageUrl: {
+      hostEquals: 'www.amazon.com',
+      pathPrefix: '/gp/video/detail/',
+      schemes: ['http', 'https']
+    }
+  }
+]
+
+// only enables extension on certain video pages
+chrome.runtime.onInstalled.addListener(function () {
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     chrome.declarativeContent.onPageChanged.addRules([{
-      conditions: [
-        new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: {
-            hostEquals: 'www.netflix.com',
-            pathPrefix: '/watch/',
-            schemes: ['http', 'https']
-          }
-        }),
-        new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: {
-            hostEquals: 'www.crunchyroll.com',
-            schemes: ['http', 'https']
-          }
-        }),
-        new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: {
-            hostEquals: 'https://www.amazon.com',
-            pathPrefix: '/gp/video/',
-            schemes: ['http', 'https']
-          }
-        }),
-        new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: {
-            hostEquals: 'https://www.youtube.com',
-            schemes: ['http', 'https']
-          }
-        })
-      ],
+      conditions: sites.map(site => new chrome.declarativeContent.PageStateMatcher(site)),
       actions: [new chrome.declarativeContent.ShowPageAction()]
     }]);
   });
