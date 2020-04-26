@@ -58,18 +58,10 @@ export default function StartParty() {
 
     const stopSession = () => {
         let url = new URL(tabUrl);
-        let searchVariables = url.searchParams;
-        searchVariables.delete("wpSession");
-        let searchList = [];
-        for (const [key, value] of searchVariables) {
-            searchList.push(key + "=" + value);
-        }
-        let newUrl = tabUrl.split("?")[0] + (searchList.length > 0) && ("?" + searchList.join("&"));
+        let newUrl = url.protocol + url.host + url.pathname;
         window.chrome.tabs.update(tabId, { url: newUrl });
         setIsStart(false);
     }
-      
-    console.log(isStart);   
 
     if (!isStart) {
         return (
