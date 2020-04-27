@@ -12,25 +12,37 @@
 </head>
 
 <body>
-    <nav class="flex jc-between align-center">
-        <div class="nav-brand">
-            <div class="nav-img"><img src="assets/brand.svg"></div>
-            <a href="#">simulstream</a>
+    <nav>
+        <div class="flex jc-between align-center">
+            <a href="#">
+                <div class="nav-brand">
+                    <div class="nav-img"><img src="assets/brand.svg"></div>
+                    <div>simulstream</div>
+                </div>
+            </a>
+            <div class="navbar-burger" id="burger">
+                <svg viewBox="0 0 100 80" width="40" height="40" fill="#00ADD3">
+                    <rect width="100" height="20" rx="8"></rect>
+                    <rect y="30" width="100" height="20" rx="8"></rect>
+                    <rect y="60" width="100" height="20" rx="8"></rect>
+                </svg>
+            </div>
+            <div class="navbar-items">
+                <ul>
+                    <li><a class="" href="#about">About</a></li>
+                    <li><a class="" href="#use">How to use</a></li>
+                    <li><a class="ss-button blue" href="#">get simulstream</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="navbar-burger" onclick="open()">
-            <svg viewBox="0 0 100 80" width="40" height="40" fill="#00ADD3">
-                <rect width="100" height="20" rx="8"></rect>
-                <rect y="30" width="100" height="20" rx="8"></rect>
-                <rect y="60" width="100" height="20" rx="8"></rect>
-            </svg>
-        </div>
-        <div class="navbar-items">
+        <div id="nav-items">
             <ul>
                 <li><a class="" href="#about">About</a></li>
                 <li><a class="" href="#use">How to use</a></li>
                 <li><a class="ss-button blue" href="#">get simulstream</a></li>
             </ul>
         </div>
+
     </nav>
     <div class="hero">
         <header class="container top-space flex">
@@ -42,9 +54,6 @@
                 <div>
                     <a class="ss-button white" href="#">get simulstream</a>
                 </div>
-            </div>
-            <div class="large-logo">
-
             </div>
         </header>
     </div>
@@ -141,17 +150,29 @@
         <div class="text-center">
             <a class="ss-button white" href="mailto:help@simulstream.info">help@simulstream.info</a>
         </div>
+        <div class="jc-center top-space flex">
+            <div class="bottom-logo"><img src="assets/whitelogo.svg"></div>
+            <div>&copy; <span id="year"></span> simulstream</div>
+        </div>
+
     </footer>
     <script>
-        function open() {
-          var x = document.getElementById("myTopnav");
-          if (x.className === "topnav") {
-            x.className += " responsive";
-          } else {
-            x.className = "topnav";
-          }
-        }
-        </script>
+
+        document.getElementById("burger").addEventListener("click", () => {
+            let items = document.getElementById("nav-items");
+            items.classList.toggle("open");
+        });
+
+        document.querySelectorAll("#nav-items a").forEach((item) => {
+            item.addEventListener("click", (e) => {
+                let items = document.getElementById("nav-items");
+                items.classList.remove("open");
+                return true;
+            })
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 </body>
 
 </html>
