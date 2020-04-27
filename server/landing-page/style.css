@@ -1,15 +1,111 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&family=Red+Hat+Display&display=swap');
 
+:root {
+    /* -- */
+    --blue: #29CDF1;
+    --white: #FAFAFA;
+    --blue-green: #00ADD3;
+    --gray-blue: #F5FDFF;
+}
+
 * {
     font-family: Nunito, sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    width: 100%;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--blue);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+nav ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+ul li {
+    padding: 1em;
+}
+
 h1 {
     font-family: 'Red Hat Display', sans-serif;
+    font-size: 40px;
+}
+
+.hero {
+    width: 100%;
+    height: 600px;
+    background-image: url('assets/header.svg');
+    background-size: 110%;
+    background-position: center -450px;
+}
+
+.term {
+    font-weight: bold;
+}
+
+.container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    color: var(--white);
+    height: 100%;
+    align-items: center;
+    max-height: 500px;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    margin-left: 1em;
+}
+
+.nav-img {
+    width: 25px;
+    margin-right: 0.5em;
+    display: flex;
+    align-items: center;
+}
+
+.nav-img img {
+    width: 100%;
+}
+
+.top-space {
+    /* padding-top: 10em; */
 }
 
 .flex {
     display: flex;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
 }
 
 .align-center {
@@ -20,6 +116,10 @@ h1 {
     justify-content: space-between;
 }
 
+.jc-around {
+    justify-content: space-around;
+}
+
 .no-style-list {
     list-style: none;
     padding-left: 0;
@@ -27,4 +127,220 @@ h1 {
 
 .ss-button {
     text-decoration: none;
+    border-radius: 32px;
+    padding: 0.5em 1em;
 }
+
+.blue {
+    background-color: var(--blue);
+    color: var(--white);
+}
+
+.white {
+    background-color: var(--white);
+    color: var(--blue);
+}
+
+.footer {
+    padding: 5em;
+    background-image: url('assets/footer.svg');
+}
+
+.large-logo {
+    background: url('assets/bigcircle.svg') no-repeat;
+    flex: 1;
+    height: 100%;
+    background-size: contain;
+}
+
+.text-area {
+    flex: 1;
+}
+
+.different {
+    background-color: var(--gray-blue);
+    width: 100%;
+}
+
+.blue-text {
+    color: var(--blue)
+}
+
+.white-text {
+    color: var(--white);
+}
+
+.section {
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+.inner-padding {
+    padding-top: 5em;
+    padding-bottom: 5em;
+}
+
+.item {
+    flex: 1;
+}
+
+.title-font {
+    font-family: "Red Hat Display";
+}
+
+/* img {
+    width: 100%;
+} */
+
+.align-top {
+    align-items: flex-start;
+}
+
+.logo-div img {
+    max-width: 90%;
+}
+
+.logo-div {
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about {
+    flex-direction: column;
+}
+
+.right-side {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.italics {
+    font-style: italic;
+}
+
+.logo-div div {
+    text-align: center;
+}
+
+.logo-div div {
+    flex-basis: 50%;
+}
+
+.name {
+    color: var(--blue-green);
+    font-size: 30px;
+}
+
+.bluegreen-text {
+    color: var(--blue-green)
+}
+
+.use-background {
+    background: url('assets/use.svg');
+    background-position: center;
+    background-size: 110%;
+    height: 800px;
+    display: flex;
+    align-items: center;
+}
+
+.cards {
+    flex-direction: column;
+}
+
+.different-flex {
+    flex-direction: column;
+}
+
+.cards li {
+    border-radius: 25px;
+    background-color: var(--white);
+    margin: 1em;
+}
+
+.cards h4 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.cards div {
+    height: 40px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar-items {
+    display: none;
+}
+
+.cards img {
+    /* width: 100%; */
+    height: 100%;
+}
+
+.simple {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.navbar-burger {
+    padding: 1em;
+}
+
+@media (min-width: 576px) {
+
+    .right-side {
+        width: 60%;      
+    }
+
+    .logo-div {
+        width: 60%;
+    }
+    
+    .different-flex {
+        flex-direction: row;
+    }
+
+    .cards {
+        flex-direction: row;
+    }
+
+    .about {
+        flex-direction: row;
+    }
+
+    .about {
+        font-size: 25px;
+    }
+
+    .about p {
+        padding-right: 1em;
+    }
+
+    .navbar-burger {
+        display: none;
+    }
+
+    .navbar-items {
+        display: block;
+    }
+
+    .cards img {
+        /* width: 100%; */
+        height: 100%;
+    }
+
+    .cards div {
+        height: 80px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}
+

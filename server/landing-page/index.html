@@ -13,105 +13,145 @@
 
 <body>
     <nav class="flex jc-between align-center">
-        <div>
-            <img>
-            <h3>simulstream</h3>
+        <div class="nav-brand">
+            <div class="nav-img"><img src="assets/brand.svg"></div>
+            <a href="#">simulstream</a>
         </div>
-        <div>
-            <a class="ss-button" href="#">get simulstream</a>
+        <div class="navbar-burger" onclick="open()">
+            <svg viewBox="0 0 100 80" width="40" height="40" fill="#00ADD3">
+                <rect width="100" height="20" rx="8"></rect>
+                <rect y="30" width="100" height="20" rx="8"></rect>
+                <rect y="60" width="100" height="20" rx="8"></rect>
+            </svg>
+        </div>
+        <div class="navbar-items">
+            <ul>
+                <li><a class="" href="#about">About</a></li>
+                <li><a class="" href="#use">How to use</a></li>
+                <li><a class="ss-button blue" href="#">get simulstream</a></li>
+            </ul>
         </div>
     </nav>
-    <header>
-        <h1>Stream Together.</h1>
-        <h3>
-            the extension to (almost) stream them all
-        </h3>
-        <div>
-            <a class="ss-button" href="#">get simulstream</a>
-        </div>
-    </header>
+    <div class="hero">
+        <header class="container top-space flex">
+            <div class="text-area">
+                <h1>Watch Together.</h1>
+                <h3>
+                    the extension to (almost) stream them all
+                </h3>
+                <div>
+                    <a class="ss-button white" href="#">get simulstream</a>
+                </div>
+            </div>
+            <div class="large-logo">
+
+            </div>
+        </header>
+    </div>
     <main>
-        <section>
-            <h2>Inspiration</h2>
+        <section id="about" class="container section">
+            <h2 class="name">simul · stream</h2>
             <div>
-                <h3>simul · stream</h3>
-                <div class="flex">
-                    <p>
+                <div class="about flex blue-text">
+                    <p class="item">
                         <span class="term">simul (Latin)</span><br>
                         Together, at the same time, at once, simultaneously
                     </p>
-                    <p>
+                    <p class="item">
                         <span class="term">stream</span><br>
                         transmit or receive over the Internet as a steady, continuous flow.
                     </p>
                 </div>
             </div>
+            <h3 class="bluegreen-text">Stream your favorite shows together!</h3>
         </section>
-        <section>
-            <h2>What’s Different?</h2>
-            <h3>Why download an extension for each different streaming service?</h3>
-            <div class="flex jc-between">
-                <div>
-                    <img>
-                </div>
-                <div>
-                    <img>
-                </div>
-                <div>
-                    <img>
-                </div>
-                <div>
-                    <img>
-                </div>
-            </div>
-            <h3>... and more coming soon!</h3>
-            </div>
-        </section>
-        <section>
-            <h2>It’s simple.</h2>
-            <h3>Why download an extension for each different streaming service?</h3>
-            <ul class="flex jc-between no-style-list">
-                <li>
-                    <h4>1. Download simulstream.</h4>
-                    <div>
-                        <img>
+        <div class="different">
+            <section class="different-flex container inner-padding flex jc-around align-top">
+                <div class="item">
+                    <div class="flex jc-between logo-div">
+                        <div>
+                            <img src="assets/netflixfull.png">
+                        </div>
+                        <div>
+                            <img src="assets/prime.png">
+                        </div>
+                        <div>
+                            <img src="assets/youtube.png">
+                        </div>
+                        <div>
+                            <img src="assets/crunchyroll.png">
+                        </div>
                     </div>
-                </li>
-                <li>
-                    <h4>2. Start watching a show.</h4>
-                    <div>
-                        <img>
+                    <h3 class="text-center blue-text">... and more coming soon!</h3>
+                </div>
+                <div class="item text-left flex align-center">
+                    <div class="blue-text right-side">
+                        <h2 class="title-font">We've got you covered.</h2>
+                        <h3>Why download an extension for <span class="italics">each</span> different streaming service?
+                        </h3>
                     </div>
-                </li>
-                <li>
-                    <h4>3. Start a party, send the link!</h4>
-                    <div>
-                        <img>
-                    </div>
-                </li>
-                <li>
-                    <h4>4. Enjoy!</h4>
-                    <div>
-                        <img>
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <section>
-            <h2>Ready to stream together?</h2>
+                </div>
+            </section>
+        </div>
+
+        </div>
+
+        <div class="use-background">
+            <section id="use" class="container section">
+                <h2 class="text-center white-text simple">It’s simple.</h2>
+                <ul class="flex jc-between no-style-list cards blue-text">
+                    <li class="item">
+                        <h4>1.<br> Download simulstream.</h4>
+                        <div>
+                            <img src="assets/chromestore.png">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <h4>2.<br> Start watching a show.</h4>
+                        <div>
+                            <img src="assets/netflix.png">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <h4>3.<br> Start a party, send the link!</h4>
+                        <div>
+                            <img src="assets/link.png">
+                        </div>
+                    </li>
+                    <li class="item">
+                        <h4>4.<br> Enjoy!</h4>
+                        <div>
+                            <img src="assets/smileyface.png">
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+        <section class="section">
+            <h2 class="text-center">Ready to stream together?</h2>
             <div>
-                <div>
-                    <a class="ss-button" href="#">get simulstream</a>
+                <div class="text-center">
+                    <a class="ss-button blue" href="#">get simulstream</a>
                 </div>
             </div>
         </section>
     </main>
-    <footer>
-        <h2>Questions?</h2>
-        <div>
-            <a class="ss-button" href="mailto:help@simulstream.info">help@simulstream.info</a>
+    <footer class="footer">
+        <h2 class="text-center">Questions?</h2>
+        <div class="text-center">
+            <a class="ss-button white" href="mailto:help@simulstream.info">help@simulstream.info</a>
         </div>
     </footer>
+    <script>
+        function open() {
+          var x = document.getElementById("myTopnav");
+          if (x.className === "topnav") {
+            x.className += " responsive";
+          } else {
+            x.className = "topnav";
+          }
+        }
+        </script>
 </body>
 
 </html>
