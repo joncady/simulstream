@@ -136,8 +136,8 @@ io.on('connection', (socket) => {
 
 });
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html")
+app.get("*", (req, res) => {
+    res.send("simulstream server running...")
 })
 
 http.listen(3000, () => {
