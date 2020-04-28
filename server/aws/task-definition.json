@@ -33,7 +33,7 @@
             "secrets": null,
             "dockerSecurityOptions": null,
             "memory": null,
-            "memoryReservation": 300,
+            "memoryReservation": null,
             "volumesFrom": [],
             "stopTimeout": null,
             "image": "207300168074.dkr.ecr.us-west-2.amazonaws.com/simulstream:latest",
@@ -57,13 +57,13 @@
         }
     ],
     "placementConstraints": [],
-    "memory": "512",
+    "memory": "1024",
     "taskRoleArn": null,
     "compatibilities": [
         "EC2",
         "FARGATE"
     ],
-    "taskDefinitionArn": "arn:aws:ecs:us-west-2:207300168074:task-definition/simulstream-deploy:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-west-2:207300168074:task-definition/simulstream-deploy:2",
     "family": "simulstream-deploy",
     "requiresAttributes": [
         {
@@ -94,12 +94,6 @@
             "targetId": null,
             "targetType": null,
             "value": null,
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
-        },
-        {
-            "targetId": null,
-            "targetType": null,
-            "value": null,
             "name": "ecs.capability.execution-role-ecr-pull"
         },
         {
@@ -120,8 +114,8 @@
         "FARGATE"
     ],
     "networkMode": "awsvpc",
-    "cpu": "256",
-    "revision": 1,
+    "cpu": "512",
+    "revision": 2,
     "status": "ACTIVE",
     "inferenceAccelerators": null,
     "proxyConfiguration": null,
